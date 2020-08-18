@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joe's Cube Timer</title>
+</head>
+<body>
+    <style>
+        .timer-container{
+            text-align: center;
+        }
+    </style>
+    <div class="timer-container">
+        <h1>THE TIMER</h1>
+        <div class="time"><span id="timer">Time: 00:00:00.00</div>
+        <button id="start">START</button>
+        <button id="stop">STOP</button>
+
+    </div>
+    <script>
+
+//=======================
+//VARIABLES
+//=======================
+let startButton = document.getElementById('start');
+let stopButton = document.getElementById('stop');
+let running = 0;//0 is false, 1 is true
+let milliseconds = 0,
+    seconds = 0,
+    minutes = 0,
+    hours = 0;
+
+//=======================
+//START BY EVENTLISTENERS
+//=======================
+document.querySelectorAll('button').forEach(function(item){
+    item.addEventListener('focus', function(){
+        this.blur();
+    });
+});
+init();
+function init(){
+        startButton.addEventListener('click', function(){
+            startTimer();
+        }
+        );
+        stopButton.addEventListener('click', function(){
+            stopTimer();
+        }
+        );
+        document.addEventListener('keyup', function(e){
+            if(e.keyCode == 32){
+                if(running == 1){
+                stopTimer();
+                } else if(running == 0){
+                    startTimer();
+                }
+            }
+        });
+        document.addEventListener('keydown', function(e){
+            if(e){
+                if(e.keyCode == 32){
+                    if(running == 1){
+                        stopTimer();
+                    } else if(running == 0){
+                        return;
+                    }
+                }
+        }
+    });
+}
+function startTimer(){
+    running = 1;
+    console.log('timer started');
+    console.log(running);
+    alert('timer started');
+    beginTiming();
+    };
+function stopTimer(){
+    endTiming();
+    running = 0;
+    console.log('timer stopped')
+    alert('timer stopped');
+    console.log(running);
+    }
+function beginTiming(){
+    if(milliseconds == 60){
+        milliseconds = 0;
+        seconds = seconds + 1;
+    }
+    if(seconds == 60){
+        seconds = 0;
+        minutes = minutes + 1;
+    }
+    if(minutes == 60){
+        minutes = 0;
+        hours = hours + 1;
+    }
+    getHours = (hours < 10) ? ('0' + hours + ':') : (hours + ':');
+    mins = (minutes < 10) ? ('0' + minutes + ':') : (minutes + ':');
+    secs = (seconds < 10) ? ('0' + seconds) : (seconds);
+    millis = (milliseconds < 10) ? ('.0' + milliseconds) : ('.' + milliseconds);
+    let timer = document.getElementById('timer');
+    timer.textContent = 'Time: ' + getHours + mins + secs + millis;
+    milliseconds++;
+    clearTime = setTimeout('beginTiming()', 10);
+}
+function endTiming(){
+    if(seconds !== 0 || minutes !== 0 || hours !== 0){
+        milliseconds = 0;
+        seconds = 0;
+        minutes = 0;
+        hours = 0;
+        millis = '0' + milliseconds;
+        secs = '0' + seconds + '.';
+        mins = '0' + minutes + ':';
+        getHours = '0' + hours + ':';
+        timer.textContent = 'Time: ' + getHours + mins + secs + millis;
+        clearTimeout(clearTime);
+    }
+}
+    </script>
+</body>
+</html>
